@@ -7,10 +7,8 @@ using System.Text.Unicode;
 
 namespace Application.UseCases.GetProfitTaxes;
 
-internal class ProfitTaxesUseCase : IProfitTaxesUseCase
+internal class ProfitTaxesUseCase(ITaxCalculationService service, ProfitTaxesValidator validationRules) : IProfitTaxesUseCase
 {
-    private readonly ProfitTaxesValidator _validationRules = new();
-    private readonly TaxCalculationService _service = new();
     private readonly JsonSerializerOptions Serializer = new()
     {
         PropertyNameCaseInsensitive = true,
@@ -28,7 +26,7 @@ internal class ProfitTaxesUseCase : IProfitTaxesUseCase
             userInput = Console.ReadLine()!;
             if (!string.IsNullOrWhiteSpace(userInput))
             {
-                var validationResult = ValidateUserInput(userInput, input, _validationRules);
+                var validationResult = ValidateUserInput(userInput, input, validationRules);
                 if (!validationResult.IsValid)
                     Console.WriteLine(string.Join(", ", validationResult.Errors.Select(_ => _.ErrorMessage)));
             }
@@ -45,7 +43,7 @@ internal class ProfitTaxesUseCase : IProfitTaxesUseCase
 
     private IEnumerable<ProfitTaxesOutput> CalculateTaxOverOperations(ProfitTaxesInput input)
     {
-        var operationsResult = _service.CalculateTaxForCapitalGain(input.ToDomain());
+        var operationsResult = service.CalculateTaxForCapitalGain(input.ToDomain());
         return ProfitTaxesOutput.ToOutput(operationsResult);
     }
 

@@ -1,4 +1,5 @@
 ﻿using Application.UseCases.GetProfitTaxes;
+using Domain.Operations;
 using System.Diagnostics.CodeAnalysis;
 
 namespace Application;
@@ -8,7 +9,7 @@ public static class Program
 {
     public static void Main(string[] args)
     {
-        var _useCase = new ProfitTaxesUseCase();
-        _useCase.CalculateCapitalGainTax();
+        var useCase = new ProfitTaxesUseCase(new TaxCalculationService(), new());
+        useCase.CalculateCapitalGainTax();
     }    
 }
