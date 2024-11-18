@@ -42,18 +42,20 @@ public class GetCapitalGainTaxesItemValidator : AbstractValidator<ProfitTaxesIte
     {
         RuleFor(_ => _.UnitCost)
             .NotEmpty()
-            .WithMessage("Valor unitário deve ser informado")
+            .WithMessage("Valor unitário deve ser positivo")
             .GreaterThan(0)
             .WithMessage("Valor unitário deve ser positivo");
 
         RuleFor(_ => _.Quantity)
             .NotEmpty()
-            .WithMessage("Quantidade deve ser informada")
+            .WithMessage("Quantidade deve ser um número positivo")
             .GreaterThan(0)
             .WithMessage("Quantidade deve ser um número positivo");
 
         RuleFor(_ => _.Operation)
             .NotEmpty()
+            .WithMessage("Opção de operação deve ser informada")
+            .IsInEnum()
             .WithMessage("Opção de operação deve ser informada");
     }
 }

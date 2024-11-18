@@ -3,5 +3,4 @@
 public interface IProfitTaxesUseCase
 {
     void CalculateCapitalGainTax();
-    IEnumerable<ProfitTaxesOutput> CalculateTaxOverOperations(ProfitTaxesInput input);
 }
